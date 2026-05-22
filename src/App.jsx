@@ -88,24 +88,26 @@ function VehicleCard({ v }) {
 
 function PropertyCard({ p }) {
   return (
-    <article style={styles.card} className="v360-card">
-      <div style={styles.cardMedia}>
-        {p.img
-          ? <img src={p.img} alt={p.name || 'Propiedad'} loading="lazy" style={styles.cardImg} />
-          : <div style={styles.cardImgPlaceholder}>Sin imagen</div>}
-        {p.tag && <span style={styles.badge}>{p.tag}</span>}
-      </div>
-      <div style={styles.cardBody}>
-        <h3 style={styles.cardTitle}>{p.name || 'Propiedad'}</h3>
-        <p style={styles.cardMeta}>
-          {p.type && <span style={styles.metaTag}>{p.type}</span>}
-          {p.location && <span>{p.location}</span>}
-          {p.location && p.area != null && <span style={styles.dot}>·</span>}
-          {p.area != null && <span>{formatNumber(p.area, ' m²')}</span>}
-        </p>
-        <p style={styles.cardPrice}>{formatCOP(p.price)}</p>
-      </div>
-    </article>
+    <Link to={`/propiedad/${p.id}`} style={{ display: 'block', color: 'inherit', textDecoration: 'none', height: '100%' }}>
+      <article style={styles.card} className="v360-card">
+        <div style={styles.cardMedia}>
+          {p.img
+            ? <img src={p.img} alt={p.name || 'Propiedad'} loading="lazy" style={styles.cardImg} />
+            : <div style={styles.cardImgPlaceholder}>Sin imagen</div>}
+          {p.tag && <span style={styles.badge}>{p.tag}</span>}
+        </div>
+        <div style={styles.cardBody}>
+          <h3 style={styles.cardTitle}>{p.name || 'Propiedad'}</h3>
+          <p style={styles.cardMeta}>
+            {p.type && <span style={styles.metaTag}>{p.type}</span>}
+            {p.location && <span>{p.location}</span>}
+            {p.location && p.area != null && <span style={styles.dot}>·</span>}
+            {p.area != null && <span>{formatNumber(p.area, ' m²')}</span>}
+          </p>
+          <p style={styles.cardPrice}>{formatCOP(p.price)}</p>
+        </div>
+      </article>
+    </Link>
   )
 }
 
