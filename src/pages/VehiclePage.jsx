@@ -388,6 +388,19 @@ function VehiclePage() {
           </aside>
         </section>
 
+        {/* DESCRIPCIÓN */}
+        {vehicle.descripcion && (
+          <section style={styles.section}>
+            <header style={styles.sectionHeader}>
+              <p style={styles.eyebrow}>Descripción</p>
+              <h2 style={styles.sectionTitle}>Sobre este vehículo</h2>
+            </header>
+            <div style={styles.descriptionBlock}>
+              <p style={styles.descriptionText}>{vehicle.descripcion}</p>
+            </div>
+          </section>
+        )}
+
         {/* 360 VIEWER */}
         {frames.length > 0 && (
           <section style={styles.section}>
@@ -624,6 +637,20 @@ const styles = {
     border: `1px solid ${C.border}`,
     borderRadius: 16,
     padding: 28,
+  },
+  descriptionBlock: {
+    background: C.surface,
+    border: `1px solid ${C.border}`,
+    borderRadius: 16,
+    padding: 28,
+    maxWidth: 900,
+  },
+  descriptionText: {
+    margin: 0,
+    fontSize: 15,
+    lineHeight: 1.7,
+    color: C.ink,
+    whiteSpace: 'pre-wrap',
   },
 
   muted: { color: C.inkSoft, fontSize: 14, margin: 0 },

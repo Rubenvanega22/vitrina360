@@ -34,11 +34,13 @@ function PropertyPage() {
   const [property, setProperty] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [activeIndex, setActiveIndex] = useState(0)
 
   useEffect(() => {
     let cancelled = false
     setLoading(true)
     setError(null)
+    setActiveIndex(0)
 
     async function load() {
       const { data: p, error: pErr } = await supabase
@@ -112,6 +114,13 @@ function PropertyPage() {
     ? `https://maps.google.com/maps?q=${encodeURIComponent(property.location)}&t=&z=14&ie=UTF8&iwloc=&output=embed`
     : null
 
+  const photos = Array.isArray(property.fotos) && property.fotos.length > 0
+    ? property.fotos.filter(Boolean)
+    : (property.img ? [property.img] : [])
+  const displayIndex = photos.length > 0 ? activeIndex % photos.length : 0
+  const goPrev = () => setActiveIndex((i) => (i - 1 + photos.length) % photos.length)
+  const goNext = () => setActiveIndex((i) => (i + 1) % photos.length)
+
   return (
     <>
       <TopBar />
@@ -140,11 +149,61 @@ function PropertyPage() {
         {/* PHOTO + ASIDE */}
         <section style={styles.layout} className="v360-vehicle-layout">
           <div>
-            <div style={styles.heroPhoto}>
-              {property.img
-                ? <img src={property.img} alt={property.name || 'Propiedad'} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                : <div style={styles.placeholder}>Sin imagen disponible</div>}
+            <div style={{ ...styles.heroPhoto, position: 'relative' }}>
+              {photos.length > 0 ? (
+                <>
+                  <img
+                    src={photos[displayIndex]}
+                    alt={`${property.name || 'Propiedad'} — foto ${displayIndex + 1}`}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  {photos.length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={goPrev}
+                        aria-label="Foto anterior"
+                        style={{ ...styles.navArrow, left: 14 }}
+                      >‹</button>
+                      <button
+                        type="button"
+                        onClick={goNext}
+                        aria-label="Foto siguiente"
+                        style={{ ...styles.navArrow, right: 14 }}
+                      >›</button>
+                      <div style={styles.photoCounter}>
+                        {displayIndex + 1} / {photos.length}
+                      </div>
+                    </>
+                  )}
+                </>
+              ) : (
+                <div style={styles.placeholder}>Sin imagen disponible</div>
+              )}
             </div>
+            {photos.length > 1 && (
+              <div style={styles.thumbStrip}>
+                {photos.map((url, i) => (
+                  <button
+                    key={`${url}-${i}`}
+                    type="button"
+                    onClick={() => setActiveIndex(i)}
+                    aria-label={`Ver foto ${i + 1}`}
+                    style={{
+                      ...styles.thumb,
+                      ...(i === displayIndex ? styles.thumbActive : {}),
+                    }}
+                  >
+                    <img
+                      src={url}
+                      alt=""
+                      loading="lazy"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <aside style={styles.aside}>
@@ -314,6 +373,56 @@ const styles = {
     width: '100%', height: '100%',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     color: C.inkMute, fontSize: 14,
+  },
+
+  navArrow: {
+    position: 'absolute',
+    top: '50%', transform: 'translateY(-50%)',
+    width: 44, height: 44, borderRadius: '50%',
+    border: 'none',
+    background: 'rgba(10, 10, 14, 0.55)',
+    backdropFilter: 'blur(8px)',
+    WebkitBackdropFilter: 'blur(8px)',
+    color: '#fff',
+    fontSize: 26, fontWeight: 300, lineHeight: 1,
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    cursor: 'pointer',
+    zIndex: 2,
+    transition: 'background 0.2s ease, transform 0.15s ease',
+    paddingBottom: 3,
+  },
+  photoCounter: {
+    position: 'absolute',
+    bottom: 14, left: '50%', transform: 'translateX(-50%)',
+    background: 'rgba(10, 10, 14, 0.7)',
+    color: '#fff',
+    padding: '6px 14px', borderRadius: 999,
+    fontSize: 12, letterSpacing: 0.4, fontWeight: 500,
+    backdropFilter: 'blur(8px)',
+    WebkitBackdropFilter: 'blur(8px)',
+    zIndex: 2,
+  },
+  thumbStrip: {
+    display: 'flex', gap: 8,
+    marginTop: 12, paddingBottom: 4,
+    overflowX: 'auto',
+  },
+  thumb: {
+    flex: '0 0 auto',
+    width: 86, height: 64,
+    borderRadius: 8,
+    overflow: 'hidden',
+    border: '2px solid transparent',
+    padding: 0,
+    background: '#ece9e2',
+    cursor: 'pointer',
+    transition: 'border-color 0.2s ease, transform 0.15s ease, opacity 0.2s ease',
+    opacity: 0.7,
+  },
+  thumbActive: {
+    borderColor: C.ink,
+    transform: 'scale(1.03)',
+    opacity: 1,
   },
 
   aside: { display: 'flex', flexDirection: 'column', gap: 20 },
