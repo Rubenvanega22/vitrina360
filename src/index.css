@@ -43,10 +43,15 @@ button { font: inherit; cursor: pointer; }
 }
 .v360-link:hover::after { right: 0; }
 
+.v360-vehicle-layout {
+  /* Desktop layout set inline via grid-template-columns */
+}
+
 @media (max-width: 640px) {
   .v360-nav-links { gap: 14px !important; font-size: 13px !important; }
   .v360-nav-inner { padding: 12px 16px !important; }
   .v360-hero-inner { padding: 56px 16px 40px !important; }
   .v360-main { padding: 16px !important; }
   .v360-section { padding: 36px 0 !important; }
+  .v360-vehicle-layout { grid-template-columns: 1fr !important; gap: 24px !important; }
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { supabase } from './supabase'
 
 const C = {
@@ -62,24 +63,26 @@ function Hero() {
 function VehicleCard({ v }) {
   const title = [v.brand, v.model].filter(Boolean).join(' ') || 'Vehículo'
   return (
-    <article style={styles.card} className="v360-card">
-      <div style={styles.cardMedia}>
-        {v.img_exterior
-          ? <img src={v.img_exterior} alt={title} loading="lazy" style={styles.cardImg} />
-          : <div style={styles.cardImgPlaceholder}>Sin imagen</div>}
-        {v.tag && <span style={styles.badge}>{v.tag}</span>}
-      </div>
-      <div style={styles.cardBody}>
-        <h3 style={styles.cardTitle}>{title}</h3>
-        <p style={styles.cardMeta}>
-          {v.year != null && <span>{v.year}</span>}
-          {v.year != null && v.km != null && <span style={styles.dot}>·</span>}
-          {v.km != null && <span>{formatNumber(v.km, ' km')}</span>}
-          {v.color && <><span style={styles.dot}>·</span><span>{v.color}</span></>}
-        </p>
-        <p style={styles.cardPrice}>{formatCOP(v.price)}</p>
-      </div>
-    </article>
+    <Link to={`/vehiculo/${v.id}`} style={{ display: 'block', color: 'inherit', textDecoration: 'none', height: '100%' }}>
+      <article style={styles.card} className="v360-card">
+        <div style={styles.cardMedia}>
+          {v.img_exterior
+            ? <img src={v.img_exterior} alt={title} loading="lazy" style={styles.cardImg} />
+            : <div style={styles.cardImgPlaceholder}>Sin imagen</div>}
+          {v.tag && <span style={styles.badge}>{v.tag}</span>}
+        </div>
+        <div style={styles.cardBody}>
+          <h3 style={styles.cardTitle}>{title}</h3>
+          <p style={styles.cardMeta}>
+            {v.year != null && <span>{v.year}</span>}
+            {v.year != null && v.km != null && <span style={styles.dot}>·</span>}
+            {v.km != null && <span>{formatNumber(v.km, ' km')}</span>}
+            {v.color && <><span style={styles.dot}>·</span><span>{v.color}</span></>}
+          </p>
+          <p style={styles.cardPrice}>{formatCOP(v.price)}</p>
+        </div>
+      </article>
+    </Link>
   )
 }
 
