@@ -33,14 +33,30 @@ const formatNumber = (value, suffix) => {
 }
 
 function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false)
+
   return (
     <nav style={styles.nav}>
       <div style={styles.navInner} className="v360-nav-inner">
-        <a href="#inicio" style={styles.logo}>
+        <a href="#inicio" style={styles.logo} onClick={() => setMenuOpen(false)}>
           <img src="/logo.png" alt="" style={styles.logoImg} />
           <span style={styles.logoText}>Vitrina 360</span>
         </a>
-        <ul style={styles.navLinks} className="v360-nav-links">
+        <button
+          type="button"
+          className="v360-hamburger"
+          onClick={() => setMenuOpen((o) => !o)}
+          aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+          aria-expanded={menuOpen}
+          style={styles.hamburger}
+        >
+          {menuOpen ? '✕' : '☰'}
+        </button>
+        <ul
+          style={styles.navLinks}
+          className={`v360-nav-links${menuOpen ? ' v360-nav-open' : ''}`}
+          onClick={() => setMenuOpen(false)}
+        >
           <li><a href="#vehiculos" style={styles.navLink} className="v360-link">Vehículos</a></li>
           <li><a href="#propiedades" style={styles.navLink} className="v360-link">Propiedades</a></li>
           <li><a href="#contacto" style={styles.navLink} className="v360-link">Contacto</a></li>
@@ -126,10 +142,59 @@ function Section({ id, eyebrow, title, error, loading, items, emptyText, renderC
       {loading && !error && <p style={styles.muted}>Cargando…</p>}
       {!loading && !error && items.length === 0 && <p style={styles.muted}>{emptyText}</p>}
       {!loading && !error && items.length > 0 && (
-        <div style={styles.grid}>
+        <div style={styles.grid} className="v360-grid">
           {items.map(renderCard)}
         </div>
       )}
+    </section>
+  )
+}
+
+function Step({ number, title, text }) {
+  return (
+    <div style={styles.step}>
+      <span style={styles.stepNumber}>{number}</span>
+      <h3 style={styles.stepTitle}>{title}</h3>
+      <p style={styles.stepText}>{text}</p>
+    </div>
+  )
+}
+
+function AboutSection() {
+  return (
+    <section id="quienes-somos" style={styles.about}>
+      <div style={styles.aboutInner}>
+        <header style={styles.aboutHeader}>
+          <p style={styles.aboutEyebrow}>Quiénes somos</p>
+          <h2 style={styles.aboutTitle}>¿Por qué elegir Vitrina 360?</h2>
+          <p style={styles.aboutIntro}>
+            Somos la plataforma premium colombiana que vende tu vehículo o propiedad más rápido, con más visibilidad y sin costos anticipados.
+          </p>
+        </header>
+
+        <div style={styles.aboutGrid} className="v360-about-grid">
+          <Step
+            number="01"
+            title="Exposición 360° total"
+            text="Mostramos tu vehículo desde todos los ángulos con fotografía interactiva, video profesional y recorrido virtual. Tu comprador lo ve como si estuviera ahí."
+          />
+          <Step
+            number="02"
+            title="Publicidad al comprador correcto"
+            text="Creamos campañas en redes sociales segmentadas por ciudad, presupuesto e intereses. No mostramos tu vehículo a todo el mundo, lo mostramos a quien realmente lo va a comprar."
+          />
+          <Step
+            number="03"
+            title="Tú negocias directamente"
+            text="Cuando hay un interesado serio te conectamos directo con él por WhatsApp. Sin intermediarios, sin demoras, tú cierras el trato a tu precio."
+          />
+          <Step
+            number="04"
+            title="Solo pagas cuando vendes"
+            text={<>Publicar es <strong style={{ color: C.gold, fontWeight: 600 }}>100% gratis</strong>. Nuestra comisión es del <strong style={{ color: C.gold, fontWeight: 600 }}>3%</strong> en vehículos y <strong style={{ color: C.gold, fontWeight: 600 }}>4%</strong> en propiedades, únicamente cuando la venta se hace efectiva.</>}
+          />
+        </div>
+      </div>
     </section>
   )
 }
@@ -194,6 +259,8 @@ function App() {
         />
       </main>
 
+      <AboutSection />
+
       <footer id="contacto" style={styles.footer}>
         <div style={styles.footerInner}>
           <p style={{ margin: 0, fontWeight: 500, color: '#fff', fontSize: 24, fontFamily: SERIF, letterSpacing: 1 }}>
@@ -227,6 +294,20 @@ const styles = {
     gap: 24,
   },
   logo: { display: 'flex', alignItems: 'center', gap: 12, color: '#fff' },
+  hamburger: {
+    display: 'none',
+    background: 'transparent',
+    border: 'none',
+    color: '#fff',
+    fontSize: 22,
+    cursor: 'pointer',
+    padding: 8,
+    lineHeight: 1,
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   logoImg: {
     height: 52,
     width: 'auto',
@@ -280,11 +361,11 @@ const styles = {
     fontWeight: 600,
   },
   heroTitle: {
-    fontSize: 'clamp(40px, 6vw, 68px)',
-    lineHeight: 1.1,
-    letterSpacing: -0.8,
+    fontSize: 'clamp(26px, 6.5vw, 68px)',
+    lineHeight: 1.15,
+    letterSpacing: -0.6,
     color: '#fff',
-    margin: '0 0 26px',
+    margin: '0 0 22px',
     fontWeight: 500,
     maxWidth: 900,
     fontFamily: SERIF,
@@ -393,6 +474,85 @@ const styles = {
     background: '#fdf1f3',
     border: '1px solid #f6c8ce',
     borderRadius: 2,
+  },
+
+  // ABOUT / QUIÉNES SOMOS
+  about: {
+    background: C.navy,
+    color: '#fff',
+    padding: '96px 0',
+  },
+  aboutInner: {
+    maxWidth: 1240,
+    margin: '0 auto',
+    padding: '0 28px',
+  },
+  aboutHeader: {
+    textAlign: 'center',
+    maxWidth: 760,
+    margin: '0 auto 64px',
+  },
+  aboutEyebrow: {
+    fontSize: 11,
+    letterSpacing: 3.5,
+    textTransform: 'uppercase',
+    color: C.gold,
+    margin: '0 0 18px',
+    fontWeight: 600,
+  },
+  aboutTitle: {
+    fontSize: 'clamp(26px, 4.5vw, 46px)',
+    margin: '0 0 22px',
+    color: '#fff',
+    fontWeight: 500,
+    letterSpacing: -0.5,
+    fontFamily: SERIF,
+    lineHeight: 1.15,
+  },
+  aboutIntro: {
+    fontSize: 'clamp(15px, 1.8vw, 18px)',
+    lineHeight: 1.75,
+    color: 'rgba(255,255,255,0.78)',
+    margin: 0,
+  },
+  aboutGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+    gap: 24,
+  },
+  step: {
+    textAlign: 'left',
+    padding: '32px 28px',
+    background: 'rgba(255,255,255,0.03)',
+    border: '1px solid rgba(200, 169, 122, 0.18)',
+    borderRadius: 6,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  stepNumber: {
+    fontSize: 48,
+    fontWeight: 500,
+    color: C.gold,
+    letterSpacing: -1,
+    fontFamily: SERIF,
+    display: 'block',
+    marginBottom: 14,
+    lineHeight: 1,
+  },
+  stepTitle: {
+    fontSize: 19,
+    margin: '0 0 12px',
+    color: '#fff',
+    fontWeight: 500,
+    letterSpacing: -0.2,
+    fontFamily: SERIF,
+    lineHeight: 1.25,
+  },
+  stepText: {
+    fontSize: 14,
+    lineHeight: 1.7,
+    color: 'rgba(255,255,255,0.72)',
+    margin: 0,
   },
 
   // FOOTER — dark navy

@@ -200,13 +200,14 @@ function Chatbot() {
           onClick={() => setIsOpen(true)}
           aria-label="Abrir chat con Luisa"
           style={styles.bubble}
+          className="v360-chatbot-bubble"
         >
           <ChatIcon />
         </button>
       )}
 
       {isOpen && (
-        <div role="dialog" aria-label="Chat con Luisa" style={styles.window}>
+        <div role="dialog" aria-label="Chat con Luisa" style={styles.window} className="v360-chatbot-window">
           <header style={styles.header}>
             <div style={styles.avatar}>L</div>
             <div style={{ flex: 1, minWidth: 0 }}>

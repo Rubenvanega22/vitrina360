@@ -324,7 +324,7 @@ function VehiclePage() {
             <div style={{
               ...styles.tabs,
               gridTemplateColumns: `repeat(${4 + (vehicle.video_url ? 1 : 0) + (frames.length > 0 ? 1 : 0)}, 1fr)`,
-            }}>
+            }} className="v360-tabs">
               {PHOTO_VIEWS.map((view) => {
                 const hasPhoto = !!vehicle[view.key]
                 const isActive = activeView === view.key
