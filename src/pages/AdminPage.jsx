@@ -209,6 +209,7 @@ const VEHICLE_INITIAL = {
 function VehicleForm({ onCreated }) {
   const [form, setForm] = useState(VEHICLE_INITIAL)
   const [file, setFile] = useState(null)
+  const [videoFile, setVideoFile] = useState(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false)
@@ -222,6 +223,8 @@ function VehicleForm({ onCreated }) {
     try {
       let imgUrl = null
       if (file) imgUrl = await uploadPhoto(file, 'vehicles')
+      let videoUrl = null
+      if (videoFile) videoUrl = await uploadPhoto(videoFile, 'vehicles/videos')
 
       const payload = {
         brand: form.brand || null,
@@ -241,12 +244,14 @@ function VehicleForm({ onCreated }) {
         published: form.published,
         sold: false,
         img_exterior: imgUrl,
+        video_url: videoUrl,
       }
       const { error: insertErr } = await supabase.from('vehicles').insert(payload)
       if (insertErr) throw insertErr
 
       setForm(VEHICLE_INITIAL)
       setFile(null)
+      setVideoFile(null)
       setSuccess(true)
       onCreated()
     } catch (err) {
@@ -296,6 +301,9 @@ function VehicleForm({ onCreated }) {
         <Field label="Etiqueta">        <input style={styles.input} value={form.tag}   onChange={set('tag')}   placeholder="Destacado" /></Field>
         <Field label="Foto exterior">
           <input style={styles.fileInput} type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
+        </Field>
+        <Field label="Video (mp4/mov/webm)">
+          <input style={styles.fileInput} type="file" accept="video/mp4,video/quicktime,video/webm,.mp4,.mov,.webm" onChange={(e) => setVideoFile(e.target.files?.[0] ?? null)} />
         </Field>
         <label style={{ ...styles.field, gridColumn: '1 / -1' }}>
           <span style={styles.fieldLabel}>Descripción</span>

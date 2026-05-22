@@ -3,16 +3,20 @@ import { Link } from 'react-router-dom'
 import { supabase } from './supabase'
 
 const C = {
-  bg: '#fafaf7',
+  bg: '#F8F6F1',
   surface: '#ffffff',
-  ink: '#0a0a0a',
+  ink: '#1a1a1a',
   inkSoft: '#5b5b5b',
   inkMute: '#8a8a8a',
-  border: '#e7e5e0',
-  accent: '#0f1117',
-  gold: '#b8860b',
+  border: '#e6dfd1',
+  navy: '#0D1B2A',
+  navyLight: '#1c2d44',
+  gold: '#C8A97A',
+  goldDark: '#a88a5f',
   danger: '#b00020',
 }
+
+const SERIF = '"Playfair Display", Georgia, "Times New Roman", serif'
 
 const formatCOP = (value) => {
   if (value == null) return '—'
@@ -33,8 +37,8 @@ function Navbar() {
     <nav style={styles.nav}>
       <div style={styles.navInner} className="v360-nav-inner">
         <a href="#inicio" style={styles.logo}>
-          <span style={styles.logoMark}>V</span>
-          <span style={styles.logoText}>Vitrina<strong style={{ color: C.gold }}> 360</strong></span>
+          <img src="/logo.png" alt="" style={styles.logoImg} />
+          <span style={styles.logoText}>Vitrina 360</span>
         </a>
         <ul style={styles.navLinks} className="v360-nav-links">
           <li><a href="#vehiculos" style={styles.navLink} className="v360-link">Vehículos</a></li>
@@ -192,8 +196,10 @@ function App() {
 
       <footer id="contacto" style={styles.footer}>
         <div style={styles.footerInner}>
-          <p style={{ margin: 0, fontWeight: 600, color: C.ink }}>Vitrina <span style={{ color: C.gold }}>360</span></p>
-          <p style={{ margin: '4px 0 0', fontSize: 13, color: C.inkSoft }}>
+          <p style={{ margin: 0, fontWeight: 500, color: '#fff', fontSize: 24, fontFamily: SERIF, letterSpacing: 1 }}>
+            Vitrina <span style={{ color: C.gold }}>360</span>
+          </p>
+          <p style={{ margin: '14px 0 0', fontSize: 11, color: 'rgba(255,255,255,0.55)', letterSpacing: 2, textTransform: 'uppercase' }}>
             © {new Date().getFullYear()} · Marketplace de vehículos e inmuebles en Colombia
           </p>
         </div>
@@ -203,94 +209,134 @@ function App() {
 }
 
 const styles = {
+  // NAVBAR — dark navy with white + gold
   nav: {
     position: 'sticky',
     top: 0,
     zIndex: 50,
-    background: 'rgba(250, 250, 247, 0.85)',
-    backdropFilter: 'saturate(180%) blur(12px)',
-    WebkitBackdropFilter: 'saturate(180%) blur(12px)',
-    borderBottom: `1px solid ${C.border}`,
+    background: C.navy,
+    borderBottom: `1px solid rgba(200, 169, 122, 0.18)`,
   },
   navInner: {
     maxWidth: 1240,
     margin: '0 auto',
-    padding: '14px 24px',
+    padding: '18px 28px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     gap: 24,
   },
-  logo: { display: 'flex', alignItems: 'center', gap: 10, color: C.ink },
+  logo: { display: 'flex', alignItems: 'center', gap: 12, color: '#fff' },
+  logoImg: {
+    height: 52,
+    width: 'auto',
+    display: 'block',
+    borderRadius: 8,
+    background: '#ffffff',
+    padding: 4,
+    objectFit: 'contain',
+  },
   logoMark: {
-    width: 36, height: 36, borderRadius: 10,
-    background: C.accent, color: '#fff',
-    fontWeight: 800, fontSize: 18,
+    width: 40, height: 40, borderRadius: 4,
+    background: C.gold, color: C.navy,
+    fontWeight: 700, fontSize: 20,
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
     letterSpacing: 0.5,
+    fontFamily: SERIF,
   },
-  logoText: { fontSize: 17, letterSpacing: 0.3, fontWeight: 500 },
-  navLinks: { display: 'flex', gap: 28 },
-  navLink: { fontSize: 14, fontWeight: 500, color: C.ink },
+  logoText: {
+    fontSize: 20,
+    letterSpacing: 2,
+    fontWeight: 600,
+    fontFamily: SERIF,
+    color: '#fff',
+  },
+  navLinks: { display: 'flex', gap: 36 },
+  navLink: {
+    fontSize: 12,
+    fontWeight: 500,
+    color: 'rgba(255,255,255,0.82)',
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+  },
 
+  // HERO — dark navy with cream/gold text
   hero: {
-    background: 'linear-gradient(180deg, #f4f1ea 0%, #fafaf7 100%)',
-    borderBottom: `1px solid ${C.border}`,
+    background: `linear-gradient(180deg, ${C.navy} 0%, ${C.navyLight} 100%)`,
+    color: '#fff',
+    position: 'relative',
   },
   heroInner: {
     maxWidth: 1240,
     margin: '0 auto',
-    padding: '96px 24px 72px',
+    padding: '128px 28px 112px',
   },
   eyebrow: {
-    fontSize: 12, letterSpacing: 2.5, textTransform: 'uppercase',
-    color: C.gold, margin: '0 0 14px', fontWeight: 700,
+    fontSize: 11,
+    letterSpacing: 3.5,
+    textTransform: 'uppercase',
+    color: C.gold,
+    margin: '0 0 22px',
+    fontWeight: 600,
   },
   heroTitle: {
-    fontSize: 'clamp(32px, 5.5vw, 60px)',
-    lineHeight: 1.04,
-    letterSpacing: -1.2,
-    color: C.ink,
-    margin: '0 0 18px',
-    fontWeight: 700,
+    fontSize: 'clamp(40px, 6vw, 68px)',
+    lineHeight: 1.1,
+    letterSpacing: -0.8,
+    color: '#fff',
+    margin: '0 0 26px',
+    fontWeight: 500,
     maxWidth: 900,
+    fontFamily: SERIF,
   },
   heroSubtitle: {
     fontSize: 'clamp(15px, 1.8vw, 18px)',
-    lineHeight: 1.6,
-    color: C.inkSoft,
+    lineHeight: 1.75,
+    color: 'rgba(255,255,255,0.78)',
     margin: 0,
     maxWidth: 620,
   },
 
-  main: { maxWidth: 1240, margin: '0 auto', padding: '0 24px' },
-  section: { padding: '64px 0' },
-  sectionHeader: { marginBottom: 32 },
+  // SECTIONS
+  main: { maxWidth: 1240, margin: '0 auto', padding: '0 28px' },
+  section: { padding: '96px 0' },
+  sectionHeader: {
+    marginBottom: 56,
+    paddingBottom: 24,
+    borderBottom: `1px solid ${C.border}`,
+  },
   sectionTitle: {
-    fontSize: 'clamp(26px, 3.5vw, 38px)',
+    fontSize: 'clamp(32px, 4.2vw, 48px)',
     margin: 0,
     color: C.ink,
-    fontWeight: 700,
-    letterSpacing: -0.6,
+    fontWeight: 500,
+    letterSpacing: -0.4,
+    fontFamily: SERIF,
+    lineHeight: 1.1,
   },
 
+  // GRID
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-    gap: 20,
+    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+    gap: 32,
   },
+
+  // CARDS
   card: {
     background: C.surface,
     border: `1px solid ${C.border}`,
-    borderRadius: 14,
+    borderRadius: 4,
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
+    boxShadow: '0 2px 6px rgba(13, 27, 42, 0.04), 0 12px 32px rgba(13, 27, 42, 0.05)',
+    height: '100%',
   },
   cardMedia: {
     position: 'relative',
     aspectRatio: '4 / 3',
-    background: '#ece9e2',
+    background: '#e8e3d4',
     overflow: 'hidden',
   },
   cardImg: { width: '100%', height: '100%', objectFit: 'cover' },
@@ -298,57 +344,67 @@ const styles = {
     width: '100%', height: '100%',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     color: C.inkMute, fontSize: 13,
+    fontStyle: 'italic',
   },
   badge: {
-    position: 'absolute', top: 12, left: 12,
-    background: C.ink, color: '#fff',
-    fontSize: 10.5, letterSpacing: 1.2, textTransform: 'uppercase',
-    padding: '6px 10px', borderRadius: 999, fontWeight: 700,
+    position: 'absolute', top: 16, left: 16,
+    background: C.navy, color: '#fff',
+    fontSize: 10, letterSpacing: 2, textTransform: 'uppercase',
+    padding: '7px 12px', borderRadius: 2, fontWeight: 600,
+    border: `1px solid ${C.gold}`,
   },
   cardBody: {
-    padding: 18,
-    display: 'flex', flexDirection: 'column', gap: 6,
+    padding: 26,
+    display: 'flex', flexDirection: 'column', gap: 10,
     flex: 1,
   },
   cardTitle: {
-    fontSize: 17, margin: 0,
-    color: C.ink, fontWeight: 600, letterSpacing: -0.2,
+    fontSize: 21, margin: 0,
+    color: C.ink, fontWeight: 500, letterSpacing: -0.2,
+    fontFamily: SERIF,
+    lineHeight: 1.25,
   },
   cardMeta: {
     fontSize: 13, color: C.inkSoft, margin: 0,
     display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center',
+    letterSpacing: 0.2,
   },
   metaTag: {
-    background: '#f1efe8',
-    padding: '2px 8px', borderRadius: 6,
-    fontSize: 12, color: C.ink, fontWeight: 500,
+    background: '#f0ece1',
+    padding: '3px 10px', borderRadius: 2,
+    fontSize: 10.5, color: C.ink, fontWeight: 600,
     marginRight: 4,
+    letterSpacing: 1,
+    textTransform: 'uppercase',
   },
-  dot: { color: '#cfcfcf' },
+  dot: { color: '#d2cbb9' },
   cardPrice: {
-    marginTop: 'auto', paddingTop: 14,
-    fontSize: 20, fontWeight: 700,
-    color: C.ink, letterSpacing: -0.3, margin: 0,
+    marginTop: 'auto', paddingTop: 18,
+    fontSize: 24, fontWeight: 600,
+    color: C.gold, letterSpacing: 0, margin: 0,
+    fontFamily: SERIF,
+    borderTop: `1px solid ${C.border}`,
   },
 
-  muted: { color: C.inkSoft, fontSize: 14, margin: 0 },
+  muted: { color: C.inkSoft, fontSize: 14, margin: 0, fontStyle: 'italic' },
   error: {
     color: C.danger, fontSize: 14, margin: '0 0 16px',
-    padding: '12px 14px',
-    background: '#fdecee',
+    padding: '14px 16px',
+    background: '#fdf1f3',
     border: '1px solid #f6c8ce',
-    borderRadius: 8,
+    borderRadius: 2,
   },
 
+  // FOOTER — dark navy
   footer: {
-    borderTop: `1px solid ${C.border}`,
-    marginTop: 40,
-    background: '#f4f1ea',
+    background: C.navy,
+    color: '#fff',
+    marginTop: 0,
   },
   footerInner: {
     maxWidth: 1240,
     margin: '0 auto',
-    padding: '36px 24px',
+    padding: '64px 28px',
     textAlign: 'center',
   },
 }

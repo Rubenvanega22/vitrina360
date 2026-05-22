@@ -303,7 +303,16 @@ function VehiclePage() {
         {/* GALLERY + ACTIONS */}
         <section style={styles.layout} className="v360-vehicle-layout">
           <div>
-            {activeView === '360' && frames.length > 0 ? (
+            {activeView === 'video' && vehicle.video_url ? (
+              <div style={{ ...styles.heroPhoto, background: '#000' }}>
+                <video
+                  src={vehicle.video_url}
+                  controls
+                  preload="metadata"
+                  style={{ width: '100%', height: '100%', objectFit: 'contain', background: '#000' }}
+                />
+              </div>
+            ) : activeView === '360' && frames.length > 0 ? (
               <Viewer360 frames={frames} />
             ) : (
               <div style={styles.heroPhoto}>
@@ -314,7 +323,7 @@ function VehiclePage() {
             )}
             <div style={{
               ...styles.tabs,
-              gridTemplateColumns: `repeat(${frames.length > 0 ? 5 : 4}, 1fr)`,
+              gridTemplateColumns: `repeat(${4 + (vehicle.video_url ? 1 : 0) + (frames.length > 0 ? 1 : 0)}, 1fr)`,
             }}>
               {PHOTO_VIEWS.map((view) => {
                 const hasPhoto = !!vehicle[view.key]
@@ -335,6 +344,18 @@ function VehiclePage() {
                   </button>
                 )
               })}
+              {vehicle.video_url && (
+                <button
+                  type="button"
+                  onClick={() => setActiveView('video')}
+                  style={{
+                    ...styles.tab,
+                    ...(activeView === 'video' ? styles.tabActive : {}),
+                  }}
+                >
+                  Video
+                </button>
+              )}
               {frames.length > 0 && (
                 <button
                   type="button"
