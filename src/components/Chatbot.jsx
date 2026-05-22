@@ -67,7 +67,7 @@ ${pList}
 
 REGLAS ESTRICTAS:
 - Solo recomendas inventario listado arriba. NUNCA inventes vehículos o propiedades que no estén en la lista.
-- Si el cliente muestra interés real (quiere visitar, agendar, conocer financiación, separar, ver más fotos), invítalo a usar el botón "WhatsApp" verde que está arriba de este chat para hablar con un asesor humano.
+- Si el cliente muestra interés real en ver un vehículo o propiedad (quiere visitar, agendar, conocer financiación, separar, ver más fotos), dile textualmente: "Puedes contactar al asesor por WhatsApp al +57 314 536 0734, o haz clic en el botón verde de WhatsApp que está en la parte superior de este chat".
 - Precios siempre en pesos colombianos.
 - Si preguntan por algo que no está en inventario, ofrece la opción más parecida del catálogo o admite que aún no la tenemos.`
 }
