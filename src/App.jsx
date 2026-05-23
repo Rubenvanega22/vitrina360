@@ -59,7 +59,7 @@ function Navbar() {
         >
           <li><a href="#vehiculos" style={styles.navLink} className="v360-link">Vehículos</a></li>
           <li><a href="#propiedades" style={styles.navLink} className="v360-link">Propiedades</a></li>
-          <li><a href="#contacto" style={styles.navLink} className="v360-link">Contacto</a></li>
+          <li><a href="#quienes-somos" style={styles.navLink} className="v360-link">Quiénes Somos</a></li>
         </ul>
       </div>
     </nav>
